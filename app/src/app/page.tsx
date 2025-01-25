@@ -33,16 +33,16 @@ export default function Component() {
           🌍 Overall
         </option>
         <option
-          value="Medicaid"
-          className="bg-white text-gray-800 hover:bg-gray-200"
-        >
-          🏥 State Medicaid Funds for Abortion
-        </option>
-          <option
           value="Abortion"
           className="bg-white text-gray-800 hover:bg-gray-200"
         >
           💉 Abortion Status
+        </option>
+        <option
+          value="Medicaid"
+          className="bg-white text-gray-800 hover:bg-gray-200"
+        >
+          🏥 State Medicaid Funds for Abortion
         </option>
       </select>
       </div>

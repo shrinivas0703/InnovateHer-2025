@@ -31,7 +31,7 @@ export default function Component() {
         className="px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-800 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-500"
       >
         <option value="Overall" className="bg-white text-gray-800 hover:bg-gray-200">
-          🌍 Overall
+          🇺🇸 Overall
         </option>
         <option
           value="Abortion"

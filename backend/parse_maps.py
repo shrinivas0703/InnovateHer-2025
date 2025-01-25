@@ -70,7 +70,7 @@ async def medicaid_parser():
 
 
 @app.get("/abortion_info")
-async def medicaid_parser():
+async def abortion_parser():
     df = pd.read_csv("abortion_data.csv")
     
     status_mapping = {
@@ -86,3 +86,37 @@ async def medicaid_parser():
     status_mapping_swap = {v: k for k, v in status_mapping.items()}
     
     return JSONResponse(content={"state_info": state_abortion_status, "num_feature_map": status_mapping_swap})
+
+@app.get("/gender_affirming_care_info")
+async def gender_affirming_care_parser():
+    url = "https://www.medpagetoday.com/special-reports/exclusives/104425"
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print(f"Error fetching URL. Status code: {response.status_code}")
+        exit()
+
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    state_info = soup.find_all("strong")
+
+    states_and_dc = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+    "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+    "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
+    "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
+    "West Virginia", "Wisconsin", "Wyoming"
+    ]
+
+    # Create a dictionary with the state names as keys and 0 as the value
+    overall_count = {state: 4 for state in states_and_dc}
+    for state in state_info:
+        if "Editor" not in state.get_text():
+            overall_count[remove_special_characters(state.get_text())] = 0
+    
+    num_feature_map = {0: "Banned", 4: "Not Banned"}
+    return JSONResponse(content={"state_info": overall_count, "num_feature_map":num_feature_map})

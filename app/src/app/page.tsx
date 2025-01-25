@@ -4,6 +4,7 @@ import { useState } from "react";
 import USMedicaidMap from "../components/MedicaidMapComponent";
 import USMap from "../components/MapComponent";
 import USAbortionMap from "../components/AbortionMapComponent";
+import USGenderMap from "../components/GenderAffirmingCareMapComponent";
 
 export default function Component() {
   const [selectedMap, setSelectedMap] = useState<string>("Overall");
@@ -44,6 +45,12 @@ export default function Component() {
         >
           🏥 State Medicaid Funds for Abortion
         </option>
+        <option
+          value="Gender Affirming Care"
+          className="bg-white text-gray-800 hover:bg-gray-200"
+        >
+          ⚧️ Gender Affirming Care for Minors
+        </option>
       </select>
       </div>
 
@@ -53,6 +60,8 @@ export default function Component() {
           <USMedicaidMap />
         ) : selectedMap === "Abortion" ? (
           <USAbortionMap/>
+        ) : selectedMap === "Gender Affirming Care" ? (
+          <USGenderMap/>
         ) : (
           <USMap/>
         )}

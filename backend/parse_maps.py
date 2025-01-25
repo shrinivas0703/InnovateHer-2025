@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import re
+import pandas as pd
 
 def remove_special_characters(input_string: str) -> str:
     # Use regex to keep only letters (a-z, A-Z)
@@ -66,3 +67,22 @@ async def medicaid_parser():
                        4: "Medicaid Funds for All or Most Medically Necessary Abortions"}
     
     return JSONResponse(content={"state_info": state_info_map, "num_feature_map": num_feature_map})
+
+
+@app.get("/abortion_info")
+async def medicaid_parser():
+    df = pd.read_csv("abortion_data.csv")
+    
+    status_mapping = {
+    "Abortion banned": 0,
+    "Gestational limit between 6 and 12 weeks LMP": 1,
+    "Gestational limit between 18 and 22 weeks LMP": 2,
+    "Gestational limit at or near viability": 3,
+    "No gestational limits": 4
+    }
+
+    state_abortion_status = dict(zip(df['State'], df['Status of Abortion'].map(status_mapping)))
+
+    status_mapping_swap = {v: k for k, v in status_mapping.items()}
+    
+    return JSONResponse(content={"state_info": state_abortion_status, "num_feature_map": status_mapping_swap})

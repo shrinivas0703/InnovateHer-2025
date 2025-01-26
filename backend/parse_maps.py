@@ -75,8 +75,8 @@ async def abortion_parser():
     
     status_mapping = {
     "Abortion banned": 0,
-    "Gestational limit between 6 and 12 weeks": 1,
-    "Gestational limit between 18 and 22 weeks": 2,
+    "Gestational limit between 6 and 12 weeks LMP": 1,
+    "Gestational limit between 18 and 22 weeks LMP": 2,
     "Gestational limit at or near viability": 3,
     "No gestational limits": 4
     }
